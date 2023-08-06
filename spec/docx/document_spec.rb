@@ -522,4 +522,28 @@ describe Docx::Document do
     end
   end
 
+  describe 'check text with revision history' do
+    before do
+      @doc = Docx::Document.open(@fixtures_path + '/test_with_style_and_revisions.docx')
+    end
+
+    it 'read text with revision marks' do
+      nb = @doc.paragraphs.size
+      expect(nb).to eq 13
+      expect(@doc.paragraphs[0].text).to eq 'Text normal 1'
+      expect(@doc.paragraphs[1].text).to eq 'Text style 1'
+      expect(@doc.paragraphs[2].text).to eq 'Test style 1 – line 2'
+      expect(@doc.paragraphs[3].text).to eq 'Title 1 – line1'
+      expect(@doc.paragraphs[4].text).to eq 'Title 2'
+      expect(@doc.paragraphs[5].text).to eq ''
+      expect(@doc.paragraphs[6].text).to eq 'Normal 2 (with revision 1)'
+      expect(@doc.paragraphs[7].text).to eq 'Text Style 1 – line 1 (added)'
+      expect(@doc.paragraphs[8].text).to eq 'Text Style 2 added to line 2'
+      expect(@doc.paragraphs[9].text).to eq 'Title 1 – line 3'
+      expect(@doc.paragraphs[10].text).to eq 'Back to normal – return to normal'
+      expect(@doc.paragraphs[11].text).to eq 'Another line (added) '
+      expect(@doc.paragraphs[12].text).to eq ''
+    end
+  end
+
 end
