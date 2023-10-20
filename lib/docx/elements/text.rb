@@ -8,7 +8,11 @@ module Docx
       end
 
       def content
-        @node.content
+        if @node.name == 'tab'
+          "\t"
+        else
+          @node.content
+        end
       end
 
       def content=(args)
