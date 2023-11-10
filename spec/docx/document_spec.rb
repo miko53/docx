@@ -507,7 +507,7 @@ describe Docx::Document do
 
   describe 'reading style' do
     before do
-    @doc = Docx::Document.open(@fixtures_path + '/test_with_style.docx')
+      @doc = Docx::Document.open(@fixtures_path + '/test_with_style.docx')
     end
 
     it 'read default style when not' do
@@ -546,4 +546,13 @@ describe Docx::Document do
     end
   end
 
+  describe '#to_html' do
+    before do
+      @doc = Docx::Document.open(@fixtures_path + '/internal-links.docx')
+    end
+
+    it 'should not raise error' do
+      expect { @doc.to_html }.to_not raise_error
+    end
+  end
 end
