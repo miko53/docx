@@ -95,7 +95,7 @@ describe Docx::Document do
       expect(@doc.tables[0].rows[0].cells[1].text).to eq 'FRANÇAIS'
       expect(@doc.tables[1].rows[0].cells[0].text).to eq 'Second table'
       expect(@doc.tables[1].rows[0].cells[1].text).to eq 'Second tableau'
-      expect(@doc.tables[0].columns[0].cells[5].text).to eq 'aphids'
+      expect(@doc.tables[0].columns[0].cells[5].text).to eq "aphids\t"
       expect(@doc.tables[0].columns[1].cells[5].text).to eq 'puceron'
     end
 
