@@ -23,7 +23,7 @@ module Docx
         def initialize(node, document_properties = {})
           @node = node
           @text_nodes = @node.xpath('w:t').map {|t_node| Elements::Text.new(t_node) }
-          @text_nodes = @node.xpath('w:t|w:r/w:t|w:tab').map {|t_node| Elements::Text.new(t_node) }
+          @text_nodes = @node.xpath('w:t|w:r/w:t|w:tab|w:r/w:tab').map {|t_node| Elements::Text.new(t_node) }
 
           @properties_tag = 'rPr'
           @text       = parse_text || ''
