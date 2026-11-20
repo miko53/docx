@@ -56,7 +56,7 @@ module Docx
 
         # Array of text runs contained within paragraph
         def text_runs
-          @node.xpath('w:r|w:hyperlink|w:ins').map { |r_node| Containers::TextRun.new(r_node, @document_properties) }
+          @node.xpath('w:r|w:hyperlink|w:ins', Docx::NS).map { |r_node| Containers::TextRun.new(r_node, @document_properties) }
         end
 
         # Iterate over each text run within a paragraph
@@ -77,7 +77,7 @@ module Docx
         end
 
         def font_size
-          size_tag = @node.xpath('w:pPr//w:sz').first
+          size_tag = @node.xpath('w:pPr//w:sz', Docx::NS).first
           size_tag ? size_tag.attributes['val'].value.to_i / 2 : @font_size
         end
 
@@ -91,17 +91,22 @@ module Docx
           end
         end
 
+        # True if the paragraph is located inside a table cell
+        def in_table?
+          !@node.at_xpath('ancestor::w:tc', Docx::NS).nil?
+        end
+
         alias_method :text, :to_s
 
         private
 
         def style_property
-          properties&.at_xpath('w:pStyle')
+          properties&.at_xpath('w:pStyle', Docx::NS)
         end
 
         # Returns the alignment if any, or nil if left
         def alignment
-          alignment_tag = @node.xpath('.//w:jc').first
+          alignment_tag = @node.xpath('.//w:jc', Docx::NS).first
           alignment_tag ? alignment_tag.attributes['val'].value : nil
         end
       end

@@ -54,7 +54,7 @@ module Docx
         # at_xpath returns the first match found and preceding-sibling returns siblings in the
         # order they appear in the document not the order as they appear when moving out from
         # the starting node
-        if not (r_nodes = @node.xpath("./preceding-sibling::w:r")).empty?
+        if not (r_nodes = @node.xpath("./preceding-sibling::w:r", Docx::NS)).empty?
           r_node = r_nodes.last
           Containers::TextRun.new(r_node)
         else
@@ -66,7 +66,7 @@ module Docx
 
       # Get text run immediately after bookmark node
       def get_run_after
-        if (r_node = @node.at_xpath("./following-sibling::w:r"))
+        if (r_node = @node.at_xpath("./following-sibling::w:r", Docx::NS))
           Containers::TextRun.new(r_node)
         else
           new_r = Containers::TextRun.create_with(self)

@@ -22,8 +22,7 @@ module Docx
 
         def initialize(node, document_properties = {})
           @node = node
-          @text_nodes = @node.xpath('w:t').map {|t_node| Elements::Text.new(t_node) }
-          @text_nodes = @node.xpath('w:t|w:r/w:t|w:tab|w:r/w:tab').map {|t_node| Elements::Text.new(t_node) }
+          @text_nodes = @node.xpath('w:t|w:r/w:t|w:tab|w:r/w:tab', Docx::NS).map {|t_node| Elements::Text.new(t_node) }
 
           @properties_tag = 'rPr'
           @text       = parse_text || ''
@@ -58,9 +57,9 @@ module Docx
 
         def parse_formatting
           {
-            italic:    !@node.xpath('.//w:i').empty?,
-            bold:      !@node.xpath('.//w:b').empty?,
-            underline: !@node.xpath('.//w:u').empty?
+            italic:    !@node.xpath('.//w:i', Docx::NS).empty?,
+            bold:      !@node.xpath('.//w:b', Docx::NS).empty?,
+            underline: !@node.xpath('.//w:u', Docx::NS).empty?
           }
         end
 
@@ -111,7 +110,7 @@ module Docx
         end
 
         def font_size
-          size_tag = @node.xpath('w:rPr//w:sz').first
+          size_tag = @node.xpath('w:rPr//w:sz', Docx::NS).first
           size_tag ? size_tag.attributes['val'].value.to_i / 2 : @font_size
         end
 
